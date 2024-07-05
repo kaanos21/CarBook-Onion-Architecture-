@@ -1,0 +1,67 @@
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using UdemyCarBook.Application.Features.CQRS.Commands.CarCommand;
+using UdemyCarBook.Application.Features.CQRS.Handlers.CarHandlers;
+using UdemyCarBook.Application.Features.CQRS.Quaries.CarQuaries;
+
+namespace UdemyCarBook.WebApi.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class CarsController : ControllerBase
+    {
+        private readonly CreateCarCommandHandler _createCarCommandHandler;
+        private readonly UpdateCarCommandHandler _updateCarCommandHandler;
+        private readonly GetCarByIdQueryHandler _getCarByIdQueryHandler;
+        private readonly GetCarQueryHandler _getCarQueryHandler;
+        private readonly RemoveCarCommandHandler _removeCarCommandHandler;
+        private readonly GetCarWithBrandQueryHandler _getCarWithBrandQueryHandler;
+
+        public CarsController(CreateCarCommandHandler createCarCommandHandler, UpdateCarCommandHandler updateCarCommandHandler, GetCarByIdQueryHandler getCarByIdQueryHandler, GetCarQueryHandler getCarQueryHandler, RemoveCarCommandHandler removeCarCommandHandler, GetCarWithBrandQueryHandler getCarWithBrandQueryHandler)
+        {
+            _createCarCommandHandler = createCarCommandHandler;
+            _updateCarCommandHandler = updateCarCommandHandler;
+            _getCarByIdQueryHandler = getCarByIdQueryHandler;
+            _getCarQueryHandler = getCarQueryHandler;
+            _removeCarCommandHandler = removeCarCommandHandler;
+            _getCarWithBrandQueryHandler = getCarWithBrandQueryHandler;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CarList()
+        {
+            var values = await _getCarQueryHandler.Handle();
+            return Ok(values);
+        }
+        [HttpGet("GetById")]
+        public async Task<IActionResult> GetCar(int id)
+        {
+            var value = await _getCarByIdQueryHandler.Handle(new GetCarByIdQuery(id));
+            return Ok(value);
+        }
+        [HttpPost]
+        public async Task<IActionResult> CreateCar(CreateCarCommand command)
+        {
+            await _createCarCommandHandler.Handle(command);
+            return Ok("Eklendi başarıyla");
+        }
+        [HttpDelete]
+        public async Task<IActionResult> RemoveCar(int id)
+        {
+            await _removeCarCommandHandler.Handle(new RemoveCarCommand(id));
+            return Ok("Başarıyla Silindi");
+        }
+        [HttpPut]
+        public async Task<IActionResult> UpdateCar(UpdateCarCommand command)
+        {
+            await _updateCarCommandHandler.Handle(command);
+            return Ok("Başarıyla Silindi Car");
+        }
+        [HttpGet("GetByBrand")]
+        public  IActionResult GetCarWithBrand()
+        {
+            var values= _getCarWithBrandQueryHandler.Handle();
+            return Ok(values);
+        }
+    }
+}
