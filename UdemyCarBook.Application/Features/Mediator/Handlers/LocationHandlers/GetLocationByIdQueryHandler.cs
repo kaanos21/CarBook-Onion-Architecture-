@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,23 +13,21 @@ using UdemyCarBook.Domain.Entities;
 
 namespace UdemyCarBook.Application.Features.Mediator.Handlers.LocationHandlers
 {
-    public class GetPricingByIdQueryHandler : IRequestHandler<GetLocationByIdQuery, GetLocationByIdQueryResult>
+    public class GetLocationByIdQueryHandler : IRequestHandler<GetLocationByIdQuery, GetLocationByIdQueryResult>
     {
         private readonly IRepository<Location> _repository;
-
-        public GetPricingByIdQueryHandler(IRepository<Location> repository)
+        private readonly IMapper _mapper;
+public GetLocationByIdQueryHandler(IRepository<Location> repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
         public async Task<GetLocationByIdQueryResult> Handle(GetLocationByIdQuery request, CancellationToken cancellationToken)
         {
             var values = await _repository.GetByIdAsync(request.Id);
-            return new GetLocationByIdQueryResult
-            {
-                LocationID= values.LocationID,
-                Name = values.Name,
-            };
+           var result= _mapper.Map<GetLocationByIdQueryResult>(values);
+           return result;
         }
     }
 }

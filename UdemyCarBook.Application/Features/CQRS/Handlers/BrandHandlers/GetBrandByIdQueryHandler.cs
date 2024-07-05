@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,19 +16,19 @@ namespace UdemyCarBook.Application.Features.CQRS.Handlers.BrandHandlers
     public class GetBrandByIdQueryHandler
     {
         private readonly IRepository<Brand> _repository;
+        private readonly IMapper _mapper;
 
-        public GetBrandByIdQueryHandler(IRepository<Brand> repository)
+        public GetBrandByIdQueryHandler(IRepository<Brand> repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
+
         public async Task<GetBrandByIdQueryResult> Handle(GetBrandByIdQuery query)
         {
             var values = await _repository.GetByIdAsync(query.Id);
-            return new GetBrandByIdQueryResult
-            {
-                BrandID = values.BrandID,
-                Name = values.Name
-            };
+            var result=_mapper.Map<GetBrandByIdQueryResult>(values);
+            return result;
         }
     }
 }

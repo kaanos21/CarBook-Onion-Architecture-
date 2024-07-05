@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,20 +16,19 @@ namespace UdemyCarBook.Application.Features.Mediator.Handlers.PricingHandlers
     public class GetPricingQueryHandler : IRequestHandler<GetPricingQuery, List<GetPricingQueryResult>>
     {
         private readonly IRepository<Pricing> _repository;
+        private readonly IMapper _mapper;
 
-        public GetPricingQueryHandler(IRepository<Pricing> repository)
+        public GetPricingQueryHandler(IRepository<Pricing> repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
         public async Task<List<GetPricingQueryResult>> Handle(GetPricingQuery request, CancellationToken cancellationToken)
         {
             var values = await _repository.GetAllAsync();
-            return values.Select(x => new GetPricingQueryResult
-            {
-                PricingId=x.PricingId,
-                Name=x.Name,
-            }).ToList();
+            var result=_mapper.Map<List<GetPricingQueryResult>>(values);
+            return result;
         }
     }
 }

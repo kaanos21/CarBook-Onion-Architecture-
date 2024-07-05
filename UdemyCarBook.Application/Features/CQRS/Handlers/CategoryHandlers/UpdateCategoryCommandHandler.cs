@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,15 +13,18 @@ namespace UdemyCarBook.Application.Features.CQRS.Handlers.CategoryHandlers
     public class UpdateCategoryCommandHandler
     {
         private readonly IRepository<Category> _repository;
+        private readonly IMapper _mapper;
 
-        public UpdateCategoryCommandHandler(IRepository<Category> repository)
+        public UpdateCategoryCommandHandler(IRepository<Category> repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
+
         public async Task Handle(UpdateCategoryCommand command)
         {
             var values = await _repository.GetByIdAsync(command.CategoryID);
-            values.Name = command.Name;
+            _mapper.Map(command,values);
             await _repository.UpdateAsync(values);
         }
     }

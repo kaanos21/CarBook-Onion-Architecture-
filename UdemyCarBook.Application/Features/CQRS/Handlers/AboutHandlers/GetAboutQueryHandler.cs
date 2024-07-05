@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,21 +13,18 @@ namespace UdemyCarBook.Application.Features.CQRS.Handlers.AboutHandlers
     public class GetAboutQueryHandler
     {
         private readonly IRepository<About> _repository;
+        private readonly IMapper _mapper;
 
-        public GetAboutQueryHandler(IRepository<About> repository)
+        public GetAboutQueryHandler(IRepository<About> repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
         public async Task<List<GetAboutQueryResult>> Handle()
         {
-            var values =  await _repository.GetAllAsync();
-            return values.Select(x => new GetAboutQueryResult
-            {
-                AboutID = x.AboutID,
-                Description = x.Description,
-                Title = x.Title,
-                ImageUrl = x.ImageUrl
-            }).ToList();
+            var aboutEntities = await _repository.GetAllAsync();
+            var result = _mapper.Map<List<GetAboutQueryResult>>(aboutEntities);
+            return result;
         }
     }
 }

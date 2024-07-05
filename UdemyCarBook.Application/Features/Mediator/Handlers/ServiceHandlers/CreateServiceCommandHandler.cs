@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,21 +11,21 @@ using UdemyCarBook.Domain.Entities;
 
 namespace UdemyCarBook.Application.Features.Mediator.Handlers.ServiceHandlers
 {
-    public class CreatePricingCommandHandler : IRequestHandler<CreateServiceCommand>
+    public class CreateServiceCommandHandler : IRequestHandler<CreateServiceCommand>
     {
         private readonly IRepository<Service> _repository;
-        public CreatePricingCommandHandler(IRepository<Service> repository)
+        private readonly IMapper _mapper;
+
+        public CreateServiceCommandHandler(IRepository<Service> repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
+
         public async Task Handle(CreateServiceCommand request, CancellationToken cancellationToken)
         {
-            await _repository.CreateAsync(new Service
-            {
-                Description = request.Description,
-                IconUrl = request.IconUrl,
-                Title = request.Title
-            });
+            var result= _mapper.Map<Service>(request);
+            await _repository.CreateAsync(result);
         }
     }
 }

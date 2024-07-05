@@ -10,6 +10,8 @@ using UdemyCarBook.Persistence.Context;
 using UdemyCarBook.Persistence.Repositories;
 using UdemyCarBook.Persistence.Repositories.CarRepositories;
 using UdemyCarBook.Application.Services;
+using System.Reflection;
+using UdemyCarBook.Application.Interfaces.AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,7 +57,11 @@ builder.Services.AddScoped<UpdateContactCommandHandler>();
 builder.Services.AddScoped<CreateContactCommandHandler>();
 builder.Services.AddScoped<RemoveContactCommandHandler>();
 
+
+
 builder.Services.AddApplicationService(builder.Configuration);
+builder.Services.AddAutoMapper(typeof(GeneralMapping));
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

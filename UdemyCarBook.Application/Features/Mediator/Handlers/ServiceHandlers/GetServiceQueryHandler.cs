@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,20 +16,19 @@ namespace UdemyCarBook.Application.Features.Mediator.Handlers.ServiceHandlers
     public class GetServiceQueryHandler : IRequestHandler<GetServiceQuery, List<GetServiceQueryResult>>
     {
         private readonly IRepository<Service> _repository;
-        public GetServiceQueryHandler(IRepository<Service> repository)
+        private readonly IMapper _mapper;
+
+        public GetServiceQueryHandler(IRepository<Service> repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
+
         public async Task<List<GetServiceQueryResult>> Handle(GetServiceQuery request, CancellationToken cancellationToken)
         {
             var values = await _repository.GetAllAsync();
-            return values.Select(x => new GetServiceQueryResult
-            {
-                Description = x.Description,
-                IconUrl = x.IconUrl,
-                Title = x.Title,
-                ServiceID = x.ServiceID
-            }).ToList();
+            var result =_mapper.Map<List<GetServiceQueryResult>>(values);
+            return result;
         }
     }
 }

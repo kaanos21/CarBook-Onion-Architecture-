@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,19 +13,18 @@ namespace UdemyCarBook.Application.Features.CQRS.Handlers.ContactHandlers
     public class UpdateContactCommandHandler
     {
         private readonly IRepository<Contact> _repository;
+        private readonly IMapper _mapper;
 
-        public UpdateContactCommandHandler(IRepository<Contact> repository)
+        public UpdateContactCommandHandler(IRepository<Contact> repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
+
         public async Task Handle(UpdateContactCommand command)
         {
             var values = await _repository.GetByIdAsync(command.ContactID);
-            values.Name = command.Name;
-            values.Email = command.Email;
-            values.Message = command.Message;
-            values.SendDate = command.SendDate;
-            values.Subject = command.Subject;
+            _mapper.Map(command,values);
             await _repository.UpdateAsync(values);
         }
     }

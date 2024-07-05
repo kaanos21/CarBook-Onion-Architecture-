@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,21 +13,19 @@ namespace UdemyCarBook.Application.Features.CQRS.Handlers.BannerHandlers
 {
     public class CreateBannerCommandHandler
     {
+        private readonly IMapper _mapper;
         private readonly IRepository<Banner> _repository;
 
-        public CreateBannerCommandHandler(IRepository<Banner> repository)
+        public CreateBannerCommandHandler(IMapper mapper, IRepository<Banner> repository)
         {
+            _mapper = mapper;
             _repository = repository;
         }
+
         public async Task Handle(CreateBannerCommand command)
         {
-            await _repository.CreateAsync(new Banner
-            {
-                Description = command.Description,
-                Title = command.Title,
-                VideoDescription = command.VideoDescription,
-                VideoUrl = command.VideoUrl,
-            });
+            var aboutEntity=_mapper.Map<Banner>(command);
+            await _repository.CreateAsync(aboutEntity);
         }
     }
 }

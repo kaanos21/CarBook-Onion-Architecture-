@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,21 +14,18 @@ namespace UdemyCarBook.Application.Features.Mediator.Handlers.FooterAddressHandl
     public class CreateFooterAddressCommandHandler : IRequestHandler<CreateFooterAddressCommand>
     {
         private readonly IRepository<FooterAddress> _repository;
+        private readonly IMapper _mapper;
 
-        public CreateFooterAddressCommandHandler(IRepository<FooterAddress> repository)
+        public CreateFooterAddressCommandHandler(IRepository<FooterAddress> repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
         public async Task Handle(CreateFooterAddressCommand request, CancellationToken cancellationToken)
         {
-            await _repository.CreateAsync(new FooterAddress
-            {
-                Adress = request.Adress,
-                Description = request.Description,
-                Email = request.Email,
-                Phone = request.Phone,
-            });
+            var result=_mapper.Map<FooterAddress>(request);
+            await _repository.CreateAsync(result);
         }
     }
 }

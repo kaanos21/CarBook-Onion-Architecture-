@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,24 +13,22 @@ using UdemyCarBook.Domain.Entities;
 
 namespace UdemyCarBook.Application.Features.Mediator.Handlers.SocialMediaHandlers
 {
-    public class GetPricingByIdQueryHandler : IRequestHandler<GetSocialMediaByIdQuery, GetSocialMediaByIdQueryResult>
+    public class GetSocialMediaByIdQueryHandler : IRequestHandler<GetSocialMediaByIdQuery, GetSocialMediaByIdQueryResult>
     {
         private readonly IRepository<SocialMedia> _repository;
-        public GetPricingByIdQueryHandler(IRepository<SocialMedia> repository)
+        private readonly IMapper _mapper;
+
+        public GetSocialMediaByIdQueryHandler(IRepository<SocialMedia> repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
         public async Task<GetSocialMediaByIdQueryResult> Handle(GetSocialMediaByIdQuery request, CancellationToken cancellationToken)
         {
             var values = await _repository.GetByIdAsync(request.Id);
-            return new GetSocialMediaByIdQueryResult
-            {
-                SocialMediaID = values.SocialMediaID,
-                Name = values.Name,
-                Url = values.Url,
-                Icon = values.Icon
-            };
+            var xx=_mapper.Map<GetSocialMediaByIdQueryResult>(values);
+            return xx;
         }
     }
 }

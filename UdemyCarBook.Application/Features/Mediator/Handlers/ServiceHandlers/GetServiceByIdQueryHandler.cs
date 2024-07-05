@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,24 +13,22 @@ using UdemyCarBook.Domain.Entities;
 
 namespace UdemyCarBook.Application.Features.Mediator.Handlers.ServiceHandlers
 {
-    public class GetPricingByIdQueryHandler : IRequestHandler<GetServiceByIdQuery, GetServiceByIdQueryResult>
+    public class GetServiceByIdQueryHandler : IRequestHandler<GetServiceByIdQuery, GetServiceByIdQueryResult>
     {
         private readonly IRepository<Service> _repository;
-        public GetPricingByIdQueryHandler(IRepository<Service> repository)
+        private readonly IMapper _mapper;
+
+        public GetServiceByIdQueryHandler(IRepository<Service> repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
         public async Task<GetServiceByIdQueryResult> Handle(GetServiceByIdQuery request, CancellationToken cancellationToken)
         {
             var values = await _repository.GetByIdAsync(request.Id);
-            return new GetServiceByIdQueryResult
-            {
-                ServiceID = values.ServiceID,
-                Description = values.Description,
-                Title = values.Title,
-                IconUrl = values.IconUrl
-            };
+            var result =_mapper.Map<GetServiceByIdQueryResult>(values);
+            return result;
         }
     }
 }

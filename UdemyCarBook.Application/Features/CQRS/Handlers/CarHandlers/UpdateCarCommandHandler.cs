@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,23 +14,18 @@ namespace UdemyCarBook.Application.Features.CQRS.Handlers.CarHandlers
     public class UpdateCarCommandHandler
     {
         private readonly IRepository<Car> _repository;
+        private readonly IMapper _mapper;
 
-        public UpdateCarCommandHandler(IRepository<Car> repository)
+        public UpdateCarCommandHandler(IRepository<Car> repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
+
         public async Task Handle(UpdateCarCommand command)
         {
             var values = await _repository.GetByIdAsync(command.CarID);
-            values.Fuel=command.Fuel;
-            values.Transmission=command.Transmission;
-            values.BigİmageUrl=command.BigİmageUrl;
-            values.BrandID=command.BrandID;
-            values.CoverImageUrl=command.CoverImageUrl;
-            values.Km=command.Km;
-            values.Luggage=command.Luggage;
-            values.Model=command.Model;
-            values.Seat=command.Seat;
+            _mapper.Map(command, values);
             await _repository.UpdateAsync(values);
         }
     }

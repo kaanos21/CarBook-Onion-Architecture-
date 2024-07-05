@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,17 +14,18 @@ namespace UdemyCarBook.Application.Features.CQRS.Handlers.BrandHandlers
     public class CreateBrandCommandHandler
     {
         private readonly IRepository<Brand> _repository;
+        private readonly IMapper _mapper;
 
-        public CreateBrandCommandHandler(IRepository<Brand> repository)
+        public CreateBrandCommandHandler(IRepository<Brand> repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
+
         public async Task Handle(CreateBrandCommand command)
         {
-            await _repository.CreateAsync(new Brand
-            {
-                Name = command.Name,
-            });
+            var aboutEntity=_mapper.Map<Brand>(command);
+            await _repository.CreateAsync(aboutEntity);
         }
     }
 }

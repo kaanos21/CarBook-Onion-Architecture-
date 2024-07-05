@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,23 +13,19 @@ namespace UdemyCarBook.Application.Features.CQRS.Handlers.ContactHandlers
     public class GetContactQueryHandler
     {
         private readonly IRepository<Contact> _repository;
+        private readonly IMapper _mapper;
 
-        public GetContactQueryHandler(IRepository<Contact> repository)
+        public GetContactQueryHandler(IRepository<Contact> repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
+
         public async Task<List<GetContactQueryResult>> Handle()
         {
             var values = await _repository.GetAllAsync();
-            return values.Select(x => new GetContactQueryResult
-            {
-                ContactID = x.ContactID,
-                Name = x.Name,
-                Email = x.Email,
-                Message = x.Message,
-                SendDate = x.SendDate,
-                Subject = x.Subject
-            }).ToList();
+            var result= _mapper.Map<List<GetContactQueryResult>>(values);
+            return result;
         }
     }
 }

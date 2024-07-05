@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,22 +13,19 @@ namespace UdemyCarBook.Application.Features.CQRS.Handlers.BannerHandlers
     public class GetBannerQueryHandler
     {
         private readonly IRepository<Banner> _repository;
+        private readonly IMapper _mapper;
 
-        public GetBannerQueryHandler(IRepository<Banner> repository)
+        public GetBannerQueryHandler(IRepository<Banner> repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
+
         public async Task<List<GetBannerQueryResult>> Handle()
         {
             var values= await _repository.GetAllAsync();
-            return values.Select(x => new GetBannerQueryResult
-            {
-                BannerId = x.BannerId,
-                Description = x.Description,
-                Title = x.Title,
-                VideoDescription = x.VideoDescription,
-                VideoUrl = x.VideoUrl
-            }).ToList();
+            var result= _mapper.Map<List<GetBannerQueryResult>>(values);
+            return result;
         }
     }
 }

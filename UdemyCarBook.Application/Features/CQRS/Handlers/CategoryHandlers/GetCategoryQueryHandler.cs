@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,19 +14,19 @@ namespace UdemyCarBook.Application.Features.CQRS.Handlers.CategoryHandlers
     public class GetCategoryQueryHandler
     {
         private readonly IRepository<Category> _repository;
+        private readonly IMapper _mapper;
 
-        public GetCategoryQueryHandler(IRepository<Category> repository)
+        public GetCategoryQueryHandler(IRepository<Category> repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
+
         public async Task<List<GetCategoryQueryResult>> Handle()
         {
             var values = await _repository.GetAllAsync();
-            return values.Select(x => new GetCategoryQueryResult
-            {
-                Name = x.Name,
-                CategoryID = x.CategoryID,
-            }).ToList();
+            var result=_mapper.Map<List<GetCategoryQueryResult>>(values);
+            return result;
         }
     }
 }

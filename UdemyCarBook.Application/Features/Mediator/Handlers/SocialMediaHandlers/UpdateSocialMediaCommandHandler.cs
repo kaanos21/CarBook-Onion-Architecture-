@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,20 +11,21 @@ using UdemyCarBook.Domain.Entities;
 
 namespace UdemyCarBook.Application.Features.Mediator.Handlers.SocialMediaHandlers
 {
-    public class UpdatePricingCommandHandler : IRequestHandler<UpdateSocialMediaCommand>
+    public class UpdateSocialMediaCommandHandler : IRequestHandler<UpdateSocialMediaCommand>
     {
         private readonly IRepository<SocialMedia> _repository;
-        public UpdatePricingCommandHandler(IRepository<SocialMedia> repository)
+        private readonly IMapper _mapper;
+
+        public UpdateSocialMediaCommandHandler(IRepository<SocialMedia> repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
+
         public async Task Handle(UpdateSocialMediaCommand request, CancellationToken cancellationToken)
         {
             var values = await _repository.GetByIdAsync(request.SocialMediaID);
-            values.Name = request.Name;
-            values.Url = request.Url;
-            values.SocialMediaID = request.SocialMediaID;
-            values.Icon= request.Icon;
+            _mapper.Map(request, values);
             await _repository.UpdateAsync(values);
         }
     }

@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -13,23 +14,20 @@ namespace UdemyCarBook.Application.Features.Mediator.Handlers.FooterAddressHandl
     public class GetFooterAddressQueryHandler : IRequestHandler<GetFooterAddressQuery, List<GetFooterAddressQueryResult>>
     {
         private readonly IRepository<FooterAddress> _repository;
+        private readonly IMapper _mapper;
 
-        public GetFooterAddressQueryHandler(IRepository<FooterAddress> repository)
+        public GetFooterAddressQueryHandler(IRepository<FooterAddress> repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
         public async Task<List<GetFooterAddressQueryResult>> Handle(GetFooterAddressQuery request, CancellationToken cancellationToken)
         {
             var addresses = await _repository.GetAllAsync();
-            return addresses.Select(x => new GetFooterAddressQueryResult
-            {
-                Adress = x.Adress,
-                Description = x.Description,
-                Phone = x.Phone,
-                Email = x.Email,
-                FooterAddressID = x.FooterAddressID,
-            }).ToList();
+            var result= _mapper.Map<List<GetFooterAddressQueryResult>>(addresses);
+            return result;
+
         }
     }
 }
