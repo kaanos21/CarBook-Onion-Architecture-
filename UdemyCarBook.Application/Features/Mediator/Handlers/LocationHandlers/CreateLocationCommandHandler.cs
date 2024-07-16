@@ -11,12 +11,12 @@ using UdemyCarBook.Domain.Entities;
 
 namespace UdemyCarBook.Application.Features.Mediator.Handlers.LocationHandlers
 {
-    public class CreateLocationCommandHandler : IRequestHandler<CreateLocationCommand>
+    public class CreateTestimonialCommandHandler : IRequestHandler<CreateLocationCommand>
     {
         private readonly IRepository<Location> _repository;
         private readonly IMapper _mapper;
 
-        public CreateLocationCommandHandler(IRepository<Location> repository, IMapper mapper)
+        public CreateTestimonialCommandHandler(IRepository<Location> repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;

@@ -20,6 +20,7 @@ using UdemyCarBook.Application.Features.Mediator.Command.FeatureCommands;
 using UdemyCarBook.Application.Features.Mediator.Command.FooterAddressCommands;
 using UdemyCarBook.Application.Features.Mediator.Command.LocationCommands;
 using UdemyCarBook.Application.Features.Mediator.Command.PricingCommands;
+using UdemyCarBook.Application.Features.Mediator.Command.TestimonialCommands;
 using UdemyCarBook.Application.Features.Mediator.Commands.ServiceCommands;
 using UdemyCarBook.Application.Features.Mediator.Commands.SocialMediaCommands;
 using UdemyCarBook.Application.Features.Mediator.Results.FeatureResults;
@@ -28,6 +29,7 @@ using UdemyCarBook.Application.Features.Mediator.Results.LocationResults;
 using UdemyCarBook.Application.Features.Mediator.Results.PricingResults;
 using UdemyCarBook.Application.Features.Mediator.Results.ServiceResults;
 using UdemyCarBook.Application.Features.Mediator.Results.SocialMediaResults;
+using UdemyCarBook.Application.Features.Mediator.Results.TestimonialResults;
 using UdemyCarBook.Domain.Entities;
 
 namespace UdemyCarBook.Application.Interfaces.AutoMapper
@@ -108,6 +110,12 @@ namespace UdemyCarBook.Application.Interfaces.AutoMapper
             CreateMap<SocialMedia, UpdateSocialMediaCommand>().ReverseMap();
             CreateMap<SocialMedia, GetSocialMediaByIdQueryResult>().ReverseMap();
             CreateMap<SocialMedia, GetSocialMediaQueryResult>().ReverseMap();
+
+            CreateMap<Testimonial, CreateTestimonialCommand>().ReverseMap();
+            CreateMap<Testimonial, RemoveTestimonialCommand>().ReverseMap();
+            CreateMap<Testimonial, UpdateTestimonialCommand>().ReverseMap();
+            CreateMap<Testimonial, GetTestimonialQueryResult>().ReverseMap();
+            CreateMap<Testimonial, GetTestimonialByIdQueryResult>().ReverseMap();
         }
     }
 }
