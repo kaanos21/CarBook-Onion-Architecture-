@@ -16,19 +16,26 @@ using UdemyCarBook.Application.Features.CQRS.Result.BrandResults;
 using UdemyCarBook.Application.Features.CQRS.Result.CarResults;
 using UdemyCarBook.Application.Features.CQRS.Result.CategoryResults;
 using UdemyCarBook.Application.Features.CQRS.Result.ContactResults;
+using UdemyCarBook.Application.Features.Mediator.Command.AuthorCommands;
+using UdemyCarBook.Application.Features.Mediator.Command.BlogCommand;
 using UdemyCarBook.Application.Features.Mediator.Command.FeatureCommands;
 using UdemyCarBook.Application.Features.Mediator.Command.FooterAddressCommands;
 using UdemyCarBook.Application.Features.Mediator.Command.LocationCommands;
 using UdemyCarBook.Application.Features.Mediator.Command.PricingCommands;
+using UdemyCarBook.Application.Features.Mediator.Command.TagCloudCommands;
 using UdemyCarBook.Application.Features.Mediator.Command.TestimonialCommands;
 using UdemyCarBook.Application.Features.Mediator.Commands.ServiceCommands;
 using UdemyCarBook.Application.Features.Mediator.Commands.SocialMediaCommands;
+using UdemyCarBook.Application.Features.Mediator.Quaries.BlogQueries;
+using UdemyCarBook.Application.Features.Mediator.Results.AuthorResults;
+using UdemyCarBook.Application.Features.Mediator.Results.BlogResults;
 using UdemyCarBook.Application.Features.Mediator.Results.FeatureResults;
 using UdemyCarBook.Application.Features.Mediator.Results.FooterAddressResults;
 using UdemyCarBook.Application.Features.Mediator.Results.LocationResults;
 using UdemyCarBook.Application.Features.Mediator.Results.PricingResults;
 using UdemyCarBook.Application.Features.Mediator.Results.ServiceResults;
 using UdemyCarBook.Application.Features.Mediator.Results.SocialMediaResults;
+using UdemyCarBook.Application.Features.Mediator.Results.TagCloudResults;
 using UdemyCarBook.Application.Features.Mediator.Results.TestimonialResults;
 using UdemyCarBook.Domain.Entities;
 
@@ -116,6 +123,25 @@ namespace UdemyCarBook.Application.Interfaces.AutoMapper
             CreateMap<Testimonial, UpdateTestimonialCommand>().ReverseMap();
             CreateMap<Testimonial, GetTestimonialQueryResult>().ReverseMap();
             CreateMap<Testimonial, GetTestimonialByIdQueryResult>().ReverseMap();
+
+            CreateMap<Author, CreateAuthorCommand>().ReverseMap();
+            CreateMap<Author, RemoveAuthorCommand>().ReverseMap();
+            CreateMap<Author, UpdateAuthorCommand>().ReverseMap();
+            CreateMap<Author, GetAuthorByIdQueryResult>().ReverseMap();
+            CreateMap<Author, GetAuthorQueryResult>().ReverseMap();
+
+            CreateMap<Blog, CreateBlogCommand>().ReverseMap();
+            CreateMap<Blog, RemoveBlogCommand>().ReverseMap();
+            CreateMap<Blog, UpdateBlogCommand>().ReverseMap();
+            CreateMap<Blog, GetBlogQueryResult>().ReverseMap();
+            CreateMap<Blog, GetBlogByIdQueryResult>().ReverseMap();
+            CreateMap<Blog, GetLast3BlogsWithAuthorsQueryResult>().ReverseMap();
+
+            CreateMap<TagCloud, CreateTagCloudCommand>().ReverseMap();
+            CreateMap<TagCloud, RemoveTagCloudCommand>().ReverseMap();
+            CreateMap<TagCloud, UpdateTagCloudCommand>().ReverseMap();
+            CreateMap<TagCloud, GetTagCloudByIdQueryResult>().ReverseMap();
+            CreateMap<TagCloud, GetTagCloudQueryResult>().ReverseMap();
         }
     }
 }

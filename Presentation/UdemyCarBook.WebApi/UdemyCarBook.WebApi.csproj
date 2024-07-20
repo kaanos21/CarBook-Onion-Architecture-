@@ -19,7 +19,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Infastructure\UdemyCarBook.Persistence\UdemyCarBook.Persistence.csproj" />
     <ProjectReference Include="..\..\UdemyCarBook.Application\UdemyCarBook.Application.csproj" />
-    <ProjectReference Include="..\..\WebApplication1\WebApplication1.csproj" />
   </ItemGroup>
 
 </Project>

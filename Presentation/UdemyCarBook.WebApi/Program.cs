@@ -1,9 +1,16 @@
+using UdemyCarBook.Application.Features.RepositoryPattern;
+using UdemyCarBook.Domain.Entities;
 using UdemyCarBook.Persistence;
+using UdemyCarBook.Persistence.Repositories.CommentRepositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+
 builder.Services.AddPersistenceService();
+
 builder.Services.AddControllers();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
