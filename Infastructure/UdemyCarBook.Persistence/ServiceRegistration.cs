@@ -25,7 +25,7 @@ namespace UdemyCarBook.Persistence
             services.AddScoped(typeof(IBlogRepository), typeof(BlogRepository));
             services.AddScoped(typeof(ICarPricingRepository), typeof(CarPricingRepository));
             services.AddScoped(typeof(ITagCloudRepository), typeof(TagCloudRepository));
-            
+            services.AddScoped(typeof(IGenericRepository<>), typeof(CommentRepository<>));
             services.AddScoped<CarBookContext>();
 
             services.AddApplicationService();

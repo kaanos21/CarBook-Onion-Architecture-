@@ -9,7 +9,7 @@ using UdemyCarBook.Persistence.Context;
 
 namespace UdemyCarBook.Persistence.Repositories.CommentRepositories
 {
-    public class CommentRepository : IGenericRepository<Comment>
+    public class CommentRepository<T> : IGenericRepository<Comment>
     {
         private readonly CarBookContext _context;
 
@@ -26,7 +26,14 @@ namespace UdemyCarBook.Persistence.Repositories.CommentRepositories
 
         public List<Comment> GetAll()
         {
-            return _context.Comments.ToList();
+            return _context.Comments.Select(x=> new Comment
+            {
+                CommentID = x.CommentID,
+                BlogID = x.BlogID,
+                CreatedDate = x.CreatedDate,
+                Description = x.Description,
+                Name = x.Name,
+            }).ToList();
         }
 
         public Comment GetById(int id)
@@ -34,9 +41,15 @@ namespace UdemyCarBook.Persistence.Repositories.CommentRepositories
             return _context.Comments.Find(id);
         }
 
-        public void Remote(Comment entity)
+        public List<Comment> GetCommentsByBlogId(int id)
         {
-            _context.Comments.Remove(entity);
+            return _context.Set<Comment>().Where(x=>x.BlogID == id).ToList();
+        }
+
+        public void Remove(Comment entity)
+        {
+            var value=_context.Comments.Find(entity.CommentID);
+            _context.Comments.Remove(value);
             _context.SaveChanges();
         }
 

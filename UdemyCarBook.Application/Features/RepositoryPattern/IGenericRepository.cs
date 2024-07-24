@@ -11,7 +11,8 @@ namespace UdemyCarBook.Application.Features.RepositoryPattern
         List<T> GetAll();
         void Create(T entity);
         void Update(T entity);
-        void Remote(T entity);
+        void Remove(T entity);
         T GetById(int id);
+        List<T> GetCommentsByBlogId(int id);
     }
 }
