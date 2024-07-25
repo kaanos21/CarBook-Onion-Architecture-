@@ -48,13 +48,13 @@ namespace UdemyCarBook.Persistence.Repositories.StatisticsRepositories
 
         public decimal GetAvgRentPriceMonthly()
         {
-            var vv = _context.CarPricings.Where(x => x.PricingID == 5).Average(x => x.Amount);
+            var vv = _context.CarPricings.Where(x => x.PricingID == 7).Average(x => x.Amount);
             return vv;
         }
 
         public decimal GetAvgRentPriceWeekly()
         {
-            var vv = _context.CarPricings.Where(x => x.PricingID == 7).Average(x => x.Amount);
+            var vv = _context.CarPricings.Where(x => x.PricingID == 5).Average(x => x.Amount);
             return vv;
         }
 

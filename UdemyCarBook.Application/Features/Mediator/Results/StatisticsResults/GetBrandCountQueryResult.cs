@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace UdemyCarBook.Application.Features.Mediator.Results.StatisticsResults
 {
-    public class CarCountByKmSmallerThen1000QueryResult
+    public class GetBrandCountQueryResult
     {
-        public int GetCarCountByKmSmallerThan1000 {  get; set; }
+        public int BrandCount { get; set; }
     }
 }
