@@ -15,6 +15,8 @@ using UdemyCarBook.Application.Features.RepositoryPattern;
 using UdemyCarBook.Persistence.Repositories.CommentRepositories;
 using UdemyCarBook.Application.Interfaces.StatisticsInterfaces;
 using UdemyCarBook.Persistence.Repositories.StatisticsRepositories;
+using UdemyCarBook.Application.Interfaces.RentACarInterfaces;
+using UdemyCarBook.Persistence.Repositories.RentACarRepository;
 
 namespace UdemyCarBook.Persistence
 {
@@ -28,6 +30,7 @@ namespace UdemyCarBook.Persistence
             services.AddScoped(typeof(ICarPricingRepository), typeof(CarPricingRepository));
             services.AddScoped(typeof(ITagCloudRepository), typeof(TagCloudRepository));
             services.AddScoped(typeof(IGenericRepository<>), typeof(CommentRepository<>));
+            services.AddScoped(typeof(IRentACarRepository), typeof(RentACarRepository));
             services.AddScoped(typeof(IStatisticsRepository), typeof(StatisticsRepository));
             services.AddScoped<CarBookContext>();
 

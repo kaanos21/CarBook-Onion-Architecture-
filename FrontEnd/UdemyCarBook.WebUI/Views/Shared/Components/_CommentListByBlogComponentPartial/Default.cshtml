@@ -1,8 +1,8 @@
-﻿
+﻿@model List<ResultCommentDto>
 
 <ul class="comment-list">
 
-    @* @foreach (var item in Model)
+    @foreach (var item in Model)
     {
         <li class="comment">
             <div class="vcard bio">
@@ -14,5 +14,5 @@
                 <p>@item.Description</p>
             </div>
         </li>
-    } *@
+    }
 </ul>

@@ -24,5 +24,6 @@ namespace UdemyCarBook.Domain.Entities
         public List<CarPricing> CarPricings { get; set; }
         public List<RentACar> RentACars { get; set; }
         public List<RentACarProcess> rentACarProcesses { get; set; }
+        public List<Reservation> Reservations { get; set; }
     }
 }

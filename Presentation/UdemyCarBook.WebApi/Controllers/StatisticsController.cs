@@ -17,9 +17,9 @@ namespace UdemyCarBook.WebApi.Controllers
             _mediator = mediator;
         }
         [HttpGet("GetCarCount")]
-        public IActionResult GetCarCount()
+        public async Task<IActionResult> GetCarCount()
         {
-            var values = _mediator.Send(new GetCarCountQuery());
+            var values = await _mediator.Send(new GetCarCountQuery());
             return Ok(values);
         }
         [HttpGet("GetLocationCount")]
