@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Text;
 using UdemyCarbook.Dto.BlogDtos;
 using UdemyCarbook.Dto.CarPricingDto;
+using UdemyCarbook.Dto.CommentDtos;
+using UdemyCarbook.Dto.LocationDtos;
 
 namespace UdemyCarBook.WebUI.Controllers
 {
@@ -28,6 +31,7 @@ namespace UdemyCarBook.WebUI.Controllers
         }
         public async Task<IActionResult> BlogDetail(int id)
         {
+            
             var client= _httpClientFactory.CreateClient();
             ViewBag.blogid = id;
             var responseMessage2 = await client.GetAsync("https://localhost:7132/api/Comments/CommentCountByBlog?id=" + id);
@@ -38,6 +42,25 @@ namespace UdemyCarBook.WebUI.Controllers
                 ViewBag.CommentCount = jsonData2;
             }
             return View();
+        }
+        [HttpGet]
+        public PartialViewResult AddComment(int id)
+        {
+            ViewBag.blogid= id;
+            return PartialView();
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddComment(CreateCommentDto comment)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var jsonData = JsonConvert.SerializeObject(comment);
+            StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
+            var responseMessage = await client.PostAsync("https://localhost:7132/api/Comments/CreateCommentWithMediator", stringContent);
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index", "Default");
+            }
+            return View("fdşkghlkşdfmhhdgfhmgdilkfmg");
         }
     }
 }

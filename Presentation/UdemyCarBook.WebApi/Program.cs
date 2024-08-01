@@ -1,3 +1,5 @@
+using FluentValidation.AspNetCore;
+using System.Reflection;
 using UdemyCarBook.Application.Features.RepositoryPattern;
 using UdemyCarBook.Domain.Entities;
 using UdemyCarBook.Persistence;
@@ -8,6 +10,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddPersistenceService();
+
+builder.Services.AddControllers().AddFluentValidation(x =>
+{
+    x.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+});
 
 builder.Services.AddControllers();
 

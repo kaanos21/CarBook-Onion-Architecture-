@@ -12,6 +12,7 @@ using UdemyCarBook.Application.Features.Mediator.Results.CarPricingResults;
 using UdemyCarBook.Application.Interfaces.BlogInterfaces;
 using UdemyCarBook.Application.Interfaces.CarInterfaces;
 using UdemyCarBook.Application.Interfaces.CarPricingInterfaces;
+using UdemyCarBook.Domain.Entities;
 
 namespace UdemyCarBook.Application.Features.Mediator.Handlers.CarPricingHandlers
 {
@@ -29,6 +30,7 @@ namespace UdemyCarBook.Application.Features.Mediator.Handlers.CarPricingHandlers
             var vv = _repository.GetCarPricingWithTimePeriod1();
             return vv.Select(x => new GetCarPricingWithTimePeriodQueryResult
             {
+
                 CoverImageUrl=x.CoverImageUrl,
                 Model = x.Model,
                 DailyAmount = x.Amounts[0],

@@ -17,6 +17,12 @@ using UdemyCarBook.Application.Interfaces.StatisticsInterfaces;
 using UdemyCarBook.Persistence.Repositories.StatisticsRepositories;
 using UdemyCarBook.Application.Interfaces.RentACarInterfaces;
 using UdemyCarBook.Persistence.Repositories.RentACarRepository;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using UdemyCarBook.Application.Tools;
+using UdemyCarBook.Application.Interfaces.AppUserInterfaces;
+using UdemyCarBook.Persistence.Repositories.AppUserRepositories;
 
 namespace UdemyCarBook.Persistence
 {
@@ -24,6 +30,20 @@ namespace UdemyCarBook.Persistence
     {
         public static void AddPersistenceService(this IServiceCollection services)
         {
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
+            {
+                opt.RequireHttpsMetadata = false;
+                opt.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidAudience = JwtTokenDefaults.ValidAudience,
+                    ValidIssuer = JwtTokenDefaults.ValidIssuer,
+                    ClockSkew = TimeSpan.Zero,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtTokenDefaults.Key)),
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true
+                };
+            });
+            services.AddScoped<CarBookContext>();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped(typeof(ICarRepository), typeof(CarRepository));
             services.AddScoped(typeof(IBlogRepository), typeof(BlogRepository));
@@ -32,7 +52,8 @@ namespace UdemyCarBook.Persistence
             services.AddScoped(typeof(IGenericRepository<>), typeof(CommentRepository<>));
             services.AddScoped(typeof(IRentACarRepository), typeof(RentACarRepository));
             services.AddScoped(typeof(IStatisticsRepository), typeof(StatisticsRepository));
-            services.AddScoped<CarBookContext>();
+            services.AddScoped(typeof(IAppUserRepository), typeof(AppUserRepository));
+            
 
             services.AddApplicationService();
 

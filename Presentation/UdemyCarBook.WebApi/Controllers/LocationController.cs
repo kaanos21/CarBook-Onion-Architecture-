@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using UdemyCarBook.Application.Features.Mediator.Command.LocationCommands;
 using UdemyCarBook.Application.Features.Mediator.Quaries.LocationQueries;
+using UdemyCarBook.Application.Validators.ReviewValidators;
 
 
 namespace UdemyCarBook.WebApi.Controllers
@@ -32,6 +33,13 @@ namespace UdemyCarBook.WebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateLocation(CreateLocationCommand command)
         {
+            CreateLocationValidator validator=new CreateLocationValidator();
+            var validationResult=validator.Validate(command);
+            if (!validationResult.IsValid)
+            {
+                return BadRequest(validationResult.Errors);
+            }
+            
             await _mediator.Send(command);
             return Ok("Özellikle başarıyla eklendi");
         }
