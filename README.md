@@ -12,4 +12,6 @@ Kullanılan Teknolojiler ve Uygulamalar
 
 🔄 Component View ve View Result: Dinamik ve yeniden kullanılabilir arayüz bileşenleri oluşturmak için kullanıldı. ✅
 
+🗂️ Areas: Büyük uygulamalarda düzeni sağlamak için kullanılan bir özelliktir ve uygulamanın farklı bölümlerini organize eder. ✅
+
 SOLID Prensipleri :Projede SOLID prensiplerine uygun olarak geliştirme yapılmıştır
